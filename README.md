@@ -12,7 +12,11 @@ This Auto reload the updated code
 export FLASK_DEBUG=1
 ```
 
-
+### Required libraries
+```python
+pip install flask
+pip install flask-sqlalchemy
+```
 
 
 
