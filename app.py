@@ -151,8 +151,8 @@ def planet_details(planet_id: int):
 
 # Adding a planet
 # Pass the access token in Bearer Authorization
-@app.route('/add_planet', methods=['POST'])
 @jwt_required
+@app.route('/add_planet', methods=['POST'])
 def add_planet():
     planet_name = request.form['planet_name']
     test = Planet.query.filter_by(planet_name=planet_name).first()
@@ -176,9 +176,10 @@ def add_planet():
         db.session.commit()
         return jsonify(message="You added a planet"), 201
 
+
 # Updating a planet using PUT method
-@app.route('/update_planet', methods=['PUT'])
 @jwt_required
+@app.route('/update_planet', methods=['PUT'])
 def update_planet():
     planet_id = int(request.form['planet_id'])
     planet = Planet.query.filter_by(planet_id=planet_id).first()
@@ -196,8 +197,8 @@ def update_planet():
 
 
 # Delete a planet
-@app.route('/remove_planet/<int:planet_id>', methods=['DELETE'])
 @jwt_required
+@app.route('/remove_planet/<int:planet_id>', methods=['DELETE'])
 def remove_planet(planet_id: int):
     planet = Planet.query.filter_by(planet_id=planet_id).first()
     if planet:
