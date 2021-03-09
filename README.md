@@ -22,6 +22,9 @@ export FLASK_DEBUG=1
 pip install flask
 pip install flask-sqlalchemy # Database
 pip install flask-marshmallow # serialization library
+pip install Flask-Login # Log in / out user authentication
+pip install flask-jwt-extended
+pip install flask-mail
 ```
 
 ### Run db commands
@@ -33,3 +36,5 @@ flask db_seed
 flask drop_all
 ```
 
+### Free email server
+mailtrap.io
