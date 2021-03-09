@@ -3,14 +3,19 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
 import os
 from flask_marshmallow import Marshmallow
+# from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'planets.db')
+# app.config['JWT_SECRET_KEY'] = 'super-secret'  # change this IRL
+
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+# jwt = JWTManager(app)
+
 
 @app.cli.command('db_create')
 def db_create():
@@ -68,6 +73,25 @@ def planets():
     result = planets_schema.dump(planets_list)
     # return jsonify(result.data)
     return jsonify(result)
+
+
+# Its a POST Method
+# Expects data only in HTML-FORM Object while calling up the API
+@app.route('/register', methods=['POST'])
+def register():
+    email = request.form['email']
+    test = User.query.filter_by(email=email).first()
+    if test:
+        return jsonify(message='That email already exists.'), 409
+    else:
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        password = request.form['password']
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(message="User created successfully."), 201
+
 
 
 # database models
